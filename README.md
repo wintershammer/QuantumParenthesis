@@ -3,8 +3,8 @@ A lispy quantum language experiment
 
 
 Dependencies:
-Python 3 
-Numpy 
+* Python 3 
+* Numpy 
 
 
 How to use:
