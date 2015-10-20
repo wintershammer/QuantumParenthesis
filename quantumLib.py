@@ -26,4 +26,14 @@ def measure(state):
         i += 1
     return (pick_random(x))
 
+def ctransp(x):
+    return np.matrix(x).H
 
+def checkH(x):
+    return np.array_equal(x,ctransp(x))
+
+def checkU(x):
+    return np.allclose(np.linalg.inv(x),ctransp(x))
+
+#x = np.array([[1/math.sqrt(2),1/math.sqrt(2)],[1/math.sqrt(2),-1/math.sqrt(2)]])
+#print(checkH(x))

@@ -1,7 +1,7 @@
 #Based on norvig's parser/interpreter for lisp 
 
 
-import re, sys, io
+import re, sys, io,functools
 import quantumLib
 
 class Symbol(str): pass
@@ -188,9 +188,15 @@ def add_globals(self):
      'eof-object?':lambda x:x is eof_object,
      'read-char':readchar,
      'apply':   lambda x,y: quantumLib.np.dot(x,y),
+     'outer' : lambda x,y : quantumLib.np.outer(x,y),
      'tensor':  lambda *x: quantumLib.stateComp(x),
      'measure': lambda x: quantumLib.measure(x),
+     'map' : lambda x,y : list(map(x,y)),
+     'fold' : lambda x,y,z: functools.reduce(x,y,z),
      'read':read, 'write':lambda x,port=sys.stdout:(port.write(to_string(x)), None)[1],
+     'transpose' : lambda x: quantumLib.ctransp(x),
+     'hermitian?' : lambda x :quantumLib.checkH(x),
+     'unitary?' : lambda x : quantumLib.checkU(x),
      'display':lambda x,port=sys.stdout:(port.write(x if isa(x,str) else to_string(x)), None)[1]})
     return self
 
