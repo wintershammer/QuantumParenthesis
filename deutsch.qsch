@@ -31,23 +31,3 @@
 		(list 0 0 1 0)
 		(list 0 0 0 1)
 		))
-
-(define identity (list (list 1 0) (list 0 1)))
-
-(define hadamard (list 
-		      (list (/ 1 (sqrt 2)) (/ 1 (sqrt 2)))
-		      (list (/ 1 (sqrt 2)) (- 0 (/ 1 (sqrt 2)))
-		      )))
-
-(define HxI (tensor hadamard identity))
-
-(define HxH (tensor hadamard hadamard))
-
-
-
-(define tensorTimesN (lambda (U n) 
-			(if (<= n 1) 
-				U 
-			(tensor U (tensorTimesN  U (- n 1)))
-			)))
-

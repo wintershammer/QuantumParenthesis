@@ -1,0 +1,36 @@
+
+(define identity (list (list 1 0) (list 0 1)))
+
+(define hadamard (list 
+		      (list (/ 1 (sqrt 2)) (/ 1 (sqrt 2)))
+		      (list (/ 1 (sqrt 2)) (- 0 (/ 1 (sqrt 2)))
+		      )))
+
+(define HxI (tensor hadamard identity))
+
+(define HxH (tensor hadamard hadamard))
+
+
+
+(define tensorTimesN (lambda (U n) 
+			(if (<= n 1) 
+				U 
+			(tensor U (tensorTimesN  U (- n 1)))
+			)))
+
+(define compose (lambda (opLst)
+	(fold apply opLst)
+	)
+)
+
+(define applyListOfOp1 (lambda (opLst state) 
+	(if (null? opLst) 
+		state 
+	(applyListOfOp (cdr opLst) (apply (car opLst) state)))
+	)
+)
+
+(define applyListOfOp (lambda (opLst state)
+	(apply (compose opLst) state)
+	)
+)
