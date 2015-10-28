@@ -2,7 +2,7 @@
 
 
 import re, sys, io,functools
-import quantumLib
+import quantumLib, oracleLib
 
 class Symbol(str): pass
 
@@ -198,6 +198,7 @@ def add_globals(self):
      'transpose' : lambda x: quantumLib.ctransp(x),
      'hermitian?' : lambda x :quantumLib.checkH(x),
      'unitary?' : lambda x : quantumLib.checkU(x),
+     'oracle' : lambda fun: oracleLib.generateOracle(fun),
      'display':lambda x,port=sys.stdout:(port.write(x if isa(x,str) else to_string(x)), None)[1]})
     return self
 
