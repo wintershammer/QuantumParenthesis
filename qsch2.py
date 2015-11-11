@@ -199,6 +199,7 @@ def add_globals(self):
      'hermitian?' : lambda x :quantumLib.checkH(x),
      'unitary?' : lambda x : quantumLib.checkU(x),
      'oracle' : lambda fun: oracleLib.generateOracle(fun),
+     'subsystems': lambda state,configuration: quantumLib.splitToSub(state,configuration),
      'display':lambda x,port=sys.stdout:(port.write(x if isa(x,str) else to_string(x)), None)[1]})
     return self
 
