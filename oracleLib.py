@@ -43,7 +43,7 @@ def generateOracleBinary(fun,dim):
     return numpy.array(oracle)
 
 def generateOraclePairs(fun):
-    combs = generateComb(len(fun[0]))
+    combs = ((x,y) for x in range(len(fun)) for y in range((len(fun[0]))))
     pairs = []
     for index,(x,y) in enumerate(combs):
         xored = y ^ applyFun(fun,x)
@@ -58,4 +58,3 @@ def generateOracle(fun):
         oracle[index][jumpBy*x + y] = 1
     #print(pairs)
     return oracle
-
