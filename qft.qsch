@@ -1,0 +1,32 @@
+(load "generator.qsch")
+
+
+(define (omega jj k N)
+	(cleanExp (/ (fold * (list 2 pi 1i jj k)) N)))
+
+
+(define (qfSum limit vec index N)
+	(if (= 0 limit)
+		0
+		(+ (* (omega index limit N) (car vec)) (qfSum (- limit 1) (cdr vec) index N))))
+
+
+
+(define (outer vec index N)
+	(if (= N index)
+		'()
+		(cons 
+			(/ (/ 1 (sqrt N )) (qfSum N vec index N))
+			(outer vec (+ index 1) N))))
+
+
+(define (qft vec)
+	(let ((N (len vec)))
+		(outer vec 0 N)))
+
+
+(define (qftMat dim)
+	(transpose (generator qft dim))) ; for some reason generator creates a transposed version of qft 
+									 ; (but it works correctly for every other operator i tried)
+									 ; i think its because  (outer ...) counts from 0 to N
+

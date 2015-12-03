@@ -2,7 +2,7 @@
 
 
 import re, sys, io,functools
-import quantumLib, oracleLib
+import quantumLib, oracleLib, autoOp
 
 class Symbol(str): pass
 
@@ -154,6 +154,7 @@ def add_globals(self):
     self.update(vars(cmath))
     self.update({
      'expC': lambda x: cmath.exp(x),
+     'cleanExp': lambda x: autoOp.clean_complex(cmath.exp(x)),
      '+':op.add,
      '-':op.sub,
      '*':op.mul,
@@ -170,7 +171,8 @@ def add_globals(self):
      'cons':cons,
      'car':lambda x:x[0],
      'cdr':lambda x:x[1:],
-     'append':op.add,  
+     'append':op.add,
+     'len' : lambda x: len(x),
      'list':lambda *x:list(x),
      'list?': lambda x:isa(x,list),
      'null?':lambda x:x==[],
