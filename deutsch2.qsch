@@ -1,0 +1,33 @@
+(define qubit0 (list 1 0)) 
+
+(define qubit1 (list 0 1))
+
+(define state (tensor qubit0 qubit1))
+
+(define U1 (list
+		(list 1 0 0 0)
+		(list 0 1 0 0)
+		(list 0 0 1 0)
+		(list 0 0 0 1)
+		))
+
+(define U2 (list
+		(list 0 1 0 0)
+		(list 1 0 0 0)
+		(list 0 0 0 1)
+		(list 0 0 1 0)
+		))
+
+(define U3 (list
+		(list 1 0 0 0)
+		(list 0 1 0 0)
+		(list 0 0 0 1)
+		(list 0 0 1 0)
+		))
+
+(define U4 (list 
+		(list 0 1 0 0)
+		(list 1 0 0 0)
+		(list 0 0 1 0)
+		(list 0 0 0 1)
+		))

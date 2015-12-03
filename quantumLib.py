@@ -54,11 +54,7 @@ def splitToSub(state,configuration):
        pretty = x.split()
        print("Probability of", pretty[0], "state",pretty[1], "is: " , y)
         
-    #return subDict
 
-
-
-#print("State: ",'{0:03b}'.format(index),"value: ",(np.absolute(state[index])**2/np.linalg.norm(state)**2))
 
 def ctransp(x):
     return np.matrix(x).H
@@ -68,10 +64,3 @@ def checkH(x):
 
 def checkU(x):
     return np.allclose(np.linalg.inv(x),ctransp(x))
-
-#x = np.array([[1/math.sqrt(2),1/math.sqrt(2)],[1/math.sqrt(2),-1/math.sqrt(2)]])
-#print(checkH(x))
-
-
-#st = [0,1/math.sqrt(2),0,1/math.sqrt(2)]
-#splitToSub(st,[1,1])

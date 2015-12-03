@@ -153,6 +153,7 @@ def add_globals(self):
     self.update(vars(math))
     self.update(vars(cmath))
     self.update({
+     'expC': lambda x: cmath.exp(x),
      '+':op.add,
      '-':op.sub,
      '*':op.mul,
@@ -177,7 +178,7 @@ def add_globals(self):
      'boolean?':lambda x: isa(x, bool),
      'pair?':is_pair, 
      'port?': lambda x:isa(x,file),
-     'apply':lambda proc,l: proc(*l), 
+     'applyE':lambda proc,l: proc(*l), 
      'eval':lambda x: eval(expand(x)),
      'load':lambda fn: load(fn),
      'call/cc':callcc,

@@ -1,0 +1,8 @@
+(load "standardLib.qsch")
+
+
+
+(define phaseShift (lambda (theta) 
+						(list
+							(list 1 0)
+							(list 0 (expC (* i theta))))))
