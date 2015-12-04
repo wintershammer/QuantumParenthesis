@@ -1,7 +1,7 @@
 #Based on norvig's parser/interpreter for lisp 
 
 
-import re, sys, io,functools
+import re, sys, io,functools,itertools
 import quantumLib, oracleLib, autoOp
 
 class Symbol(str): pass
@@ -159,7 +159,8 @@ def add_globals(self):
      '-':op.sub,
      '*':op.mul,
      '/':op.truediv,
-     'not':op.not_, 
+     'not':op.not_,
+     'or': lambda x,y: x or y,
      '>':op.gt,
      '<':op.lt,
      '>=':op.ge,
@@ -192,17 +193,18 @@ def add_globals(self):
      'read-char':readchar,
      'apply':   lambda x,y: quantumLib.np.dot(x,y),
      'outer' : lambda x,y : quantumLib.np.outer(x,y),
-     'tensor':  lambda *x: quantumLib.stateComp(x),
+     'tensor':  lambda *x: quantumLib.stateComp(x).tolist(),
      'measure': lambda x: quantumLib.measure(x),
      'map' : lambda x,y : list(map(x,y)),
      'fold' : lambda x,y : functools.reduce(x,y),
      'foldI' : lambda x,y,z: functools.reduce(x,y,z),
      'read':read, 'write':lambda x,port=sys.stdout:(port.write(to_string(x)), None)[1],
-     'transpose' : lambda x: quantumLib.ctransp(x),
+     'transpose' : lambda x: (quantumLib.ctransp(x)).tolist(),
      'hermitian?' : lambda x :quantumLib.checkH(x),
      'unitary?' : lambda x : quantumLib.checkU(x),
      'oracle' : lambda fun: oracleLib.generateOracle(fun),
      'subsystems': lambda state,configuration: quantumLib.splitToSub(state,configuration),
+     'cart':  lambda *x: list(itertools.product(*x)),
      'display':lambda x,port=sys.stdout:(port.write(x if isa(x,str) else to_string(x)), None)[1]})
     return self
 

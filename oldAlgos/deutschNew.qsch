@@ -1,0 +1,19 @@
+(load "qft.qsch")
+(load "generator.qsch")
+
+
+
+(define (f x)
+	(if (= x (list 1 0))
+		(list 0 1)
+		(list 1 0)))
+
+
+(define (deutsch qubit0 qubit1)
+	(let ((Uf (oracle (generator f 2))))
+
+		(apply (tensor (generator hadamard 2) (generator identity 2))
+			(apply Uf 
+				(tensor (hadamard qubit0) 
+						(hadamard qubit1))))))
+

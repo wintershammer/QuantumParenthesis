@@ -1,0 +1,19 @@
+(define (identity vec)
+	vec)
+
+(define (flip vec)
+	(reverse1 vec))
+
+
+
+; H(x,y) = (1/sqrt2*x + 1/sqrt2*y , 1/sqrt2*x - 1/sqrt2*y)
+(define (hadamard vec) ; 2x2 hadamard
+	(list 
+		(+ (* (/ 1 (sqrt 2)) (car vec))  (* (/ 1 (sqrt 2)) (car (cdr vec)))) ; 
+		(- (* (/ 1 (sqrt 2)) (car vec))  (* (/ 1 (sqrt 2)) (car (cdr vec))))))
+
+
+(define (pauliY vec)
+	(list 
+		(+ (* 0 (car vec)) (* 1j (car (cdr vec))))
+		(+ (* -1j (car vec)) (* 0 (car (cdr vec))))))

@@ -1,0 +1,66 @@
+
+(load "standardLib.qsch")
+
+(define UD1 (list
+			(list 0 1 0 0 0 0 0 0)
+			(list 1 0 0 0 0 0 0 0)
+			(list 0 0 0 1 0 0 0 0)
+			(list 0 0 1 0 0 0 0 0)
+			(list 0 0 0 0 1 0 0 0)
+			(list 0 0 0 0 0 1 0 0)
+			(list 0 0 0 0 0 0 1 0)
+			(list 0 0 0 0 0 0 0 1)
+			)
+		)
+
+(define UD2 (list
+			(list 1 0 0 0 0 0 0 0)
+			(list 0 1 0 0 0 0 0 0)
+			(list 0 0 1 0 0 0 0 0)
+			(list 0 0 0 1 0 0 0 0)
+			(list 0 0 0 0 1 0 0 0)
+			(list 0 0 0 0 0 1 0 0)
+			(list 0 0 0 0 0 0 1 0)
+			(list 0 0 0 0 0 0 0 1)
+			)
+		)
+
+
+(define UD3 (list
+			(list 0 1 0 0 0 0 0 0)
+			(list 1 0 0 0 0 0 0 0)
+			(list 0 0 0 1 0 0 0 0)
+			(list 0 0 1 0 0 0 0 0)
+			(list 0 0 0 0 0 1 0 0)
+			(list 0 0 0 0 1 0 0 0)
+			(list 0 0 0 0 0 0 0 1)
+			(list 0 0 0 0 0 0 1 0)
+			)
+		)
+
+(define |0> (tensor (list 1 0) (list 1 0)))
+
+(define |1> (list 0 1))
+
+
+(define Hx2 (tensor hadamard hadamard))
+
+
+(define deutschJozsa 
+	(lambda (U top bottom)
+		(measure 
+			(applyListOfOp (list (tensor Hx2 identity) U (tensor Hx2 hadamard)) 
+							(tensor top bottom)
+			)
+		)
+	)
+)
+
+
+(define noMeas 
+	(lambda (U top bottom)
+		(applyListOfOp (list (tensor Hx2 identity) U (tensor Hx2 hadamard)) 
+						(tensor top bottom)
+		)
+	)
+)

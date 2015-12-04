@@ -1,0 +1,41 @@
+(load "./quantumAlgos/generator.qsch")
+(load "./quantumAlgos/operators.qsch")
+(load "./quantumAlgos/standardLib.qsch")
+
+
+(define (f1 x)
+	(if (= x (list 1 0))
+		(list 0 1)
+		(list 1 0)))
+
+(define (addMod2 qubit0 qubit1)
+	(if (= qubit0 qubit1)
+		(list 1 0)
+		(list 0 1)))
+
+; Meh den fenet na mporo na oriso ton Uf1 os operator me 2 inputs kai na kano generate ton pinaka tou :/
+;To Uf1 einai bilinear omos, Uf1: V x V -> (V tensor V), ara na koitakso pos ftiaxno matrix of bilinear operator
+;(define (Uf1 qubit0 qubit1)
+;	(cons qubit0 (addMod2 qubit1 (f1 qubit0))))
+
+
+
+(define (Uf1 qubit0 qubit1)
+	(tensor qubit0 (addMod2 qubit1 (f1 qubit0))))
+
+
+
+(define (deutsch f)
+	(let (	(qubit0 (list 1 0))
+			(qubit1 (list 0 1))
+			(H (generator hadamard 2))
+			(I (generator identity 2))
+			(U (oracle (generator f 2))))
+
+	(subsystems		
+		(applyListOfOp 	(list
+							(tensor H I)
+							U
+							(tensor H H))
+						(tensor qubit0 qubit1))
+		(list 1 1))))

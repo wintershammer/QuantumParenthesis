@@ -1,0 +1,58 @@
+(load "./quantumAlgos/standardLib.qsch")
+(load "./quantumAlgos/operators.qsch")
+
+
+(define (generateNull n)
+  (if (= n 1)
+     (list 0)                      
+     (cons 0 (generateNull (- n 1)))))
+
+(define (set1At lst indx)
+	(if (= 0 indx)
+		(cons 1 (cdr lst))
+		(cons 0 (set1At (cdr lst) (- indx 1)))))
+
+
+(define (generateBasis dim c) ; dim must be c-1, c denotes dimention of space
+							  ; ta vgazei anapoda ta basis vectors though
+	(if (< dim 0)
+		'()
+		(cons (set1At (generateNull c) dim) (generateBasis (- dim 1) c))))
+
+
+(define (generateMatrix oprtr basis) 
+	(if (null? (cdr basis))
+		(list (oprtr (car basis)))
+		(cons 
+			(oprtr (car basis))
+			(generateMatrix oprtr (cdr basis)))))
+
+(define (generator op dim) ; helper function, no need to type (transpose generateMatrix(....)) all the time
+	(let ((basis (reverse1 (generateBasis (- dim 1) dim))))
+		(transpose  (generateMatrix op basis))))
+
+
+(define (generateBiBasis dim)
+	(cart 
+		(reverse1 (generateBasis 1 2))
+		(reverse1 (generateBasis 1 2))))
+
+(define (generateBiMatrix oprtr basis)
+		(let ( (curPair (car basis)))
+			(if (null? (cdr basis))
+				(list (oprtr (car curPair) (car (cdr curPair))))
+				(cons
+					(oprtr (car curPair) (car (cdr curPair)))
+					(generateBiMatrix oprtr (cdr basis))))))
+
+(define example1
+	(transpose (generateMatrix identity (reverse1 (generateBasis 2 3))))) ; generates the matrix for the identity in the C^3 space
+
+(define example2
+	(transpose (generateMatrix flip (reverse1 (generateBasis 1 2))))) ; generates the matrix for the flip in the C^2 space
+
+(define example3
+	(transpose (generateMatrix flip (reverse1 (generateBasis 2 3))))) ; generates the matrix for the "flip" in the C^3 space
+
+(define example4
+	(transpose (generateMatrix hadamard (reverse1 (generateBasis 1 2))))) ; generates the matrix for the hadamard in the C^2 space

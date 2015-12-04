@@ -1,0 +1,23 @@
+(load "./quantumAlgos/standardLib.qsch")
+
+
+(define hadamard (list
+					(list (/ 1 (sqrt 2)) (/ 1 (sqrt 2)))
+					(list (/ 1 (sqrt 2)) (- 0 (/ 1 (sqrt 2))))))
+
+(define identity (list
+					(list 1 0)
+					(list 0 1)))
+
+(define f1 (list
+				(list 0 1)
+				(list 1 0)))
+
+
+(define deutsch (lambda (function)
+	((subsystems (applyListOfOp
+					(list (tensor hadamard identity)
+						  (oracle function)
+					      (tensor hadamard hadamard))
+					(tensor (list 1 0) (list 0 1)))
+				 (list 1 1)))))

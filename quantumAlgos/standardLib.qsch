@@ -1,0 +1,37 @@
+
+(define tensorTimesN (lambda (U n) 
+			(if (<= n 1) 
+				U 
+			(tensor U (tensorTimesN  U (- n 1)))
+			)))
+
+(define compose (lambda (opLst)
+	(fold apply opLst)
+	)
+)
+
+(define applyListOfOp1 (lambda (opLst state) 
+	(if (null? opLst) 
+		state 
+	(applyListOfOp (cdr opLst) (apply (car opLst) state)))
+	)
+)
+
+(define applyListOfOp (lambda (opLst state)
+	(apply (compose opLst) state)
+	)
+)
+
+(define (reverse1 l)
+  (if (null? l)
+     '()
+     (append (reverse1 (cdr l)) (list (car l)))))
+
+(define (delta dim index)
+	(if (= dim index)
+		1
+		0))
+
+(define log2
+    (lambda (x) 
+      (/ (log x) (log 2))))

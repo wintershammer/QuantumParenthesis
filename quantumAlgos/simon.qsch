@@ -1,0 +1,28 @@
+(load "standardLib.qsch")
+
+(define f1 (list 
+			(list 0 0 0 0 1 0 0 0)
+			(list 0 1 0 0 0 0 0 0)
+			(list 0 0 0 0 0 1 0 0)
+			(list 0 0 0 0 0 0 0 1)
+			(list 0 1 0 0 0 0 0 0)
+			(list 0 0 0 0 1 0 0 0)
+			(list 0 0 0 0 0 0 0 1)
+			(list 0 0 0 0 0 1 0 0)
+			)
+)
+
+
+(define |0> (tensor (list 1 0) (list 1 0) (list 1 0)))
+
+(define state (tensor |0> |0>))
+
+(define HI3 (tensor (tensorTimesN hadamard 3) (tensorTimesN identity 3)))
+
+(define Uf1 (oracle f1))
+
+(define simon3 (lambda (func) (
+	(measure  
+		(applyListOfOp (list HI3 (oracle func) HI3) state)
+		)
+)))
