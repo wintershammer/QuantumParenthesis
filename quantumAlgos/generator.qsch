@@ -45,6 +45,11 @@
 					(oprtr (car curPair) (car (cdr curPair)))
 					(generateBiMatrix oprtr (cdr basis))))))
 
+(define (generatorBi op dim)
+	(let ((basis (generateBiBasis dim)))
+		(transpose  (generateBiMatrix op basis))))
+
+
 (define example1
 	(transpose (generateMatrix identity (reverse1 (generateBasis 2 3))))) ; generates the matrix for the identity in the C^3 space
 
