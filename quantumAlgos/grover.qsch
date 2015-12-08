@@ -1,0 +1,52 @@
+(load "./quantumAlgos/standardLib.qsch")
+(load "./quantumAlgos/generator.qsch")
+(load "./quantumAlgos/operators.qsch")
+
+(define (f string)
+	(lambda (x)
+		(if (= x string)
+			(list 0 1)
+			(list 1 0))))
+
+; (transpose (generator (f (list 0 0 1 0)) 4))
+
+
+(define (A n)
+	(scalarM (/ 1 (pow 2 n)) (ones (list n n))))
+
+
+(define (inversionAboutMean dim)
+	(let	((Am (A dim))
+			(Im (generator identity dim)))
+
+			(addM 	(scalarM (- 0 1) Im)
+					(scalarM 2 Am))))
+
+
+(define (phaseInversion dim x)
+	(let ((Uf (oracle (transpose (generator (f x) dim)))))
+		(apply Uf (tensor (generator identity dim) (generator hadamard 2)))))
+
+
+(define (iteration x state)
+	(let ((dim (length x)))
+	(applyListOfOp (list
+						(tensor (inversionAboutMean dim) (generator identity 2))
+						(phaseInversion dim x))
+				 	state)))
+
+
+(define (groverAlg x times state)
+		(if (= 0 times)
+			state
+			(groverAlg x (- times 1) (iteration x state))))
+
+(define (grover x)
+		(let ((initState (apply
+						(tensor (tensorTimesN (generator hadamard 2) (log (length x) 2)) 
+								(generator identity 2))
+						(tensor (set1At (generateNull (length x)) 0) (list 0 1)))))
+			(subsystems		
+				(groverAlg x (sqrt (pow 2 (length x))) initState)
+				(list 	(toInt (log (length x) 2)) 
+						1))))

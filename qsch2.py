@@ -150,8 +150,8 @@ def callcc(proc):
 def add_globals(self):
     "Add some Scheme standard procedures."
     import math, cmath, operator as op
-    self.update(vars(math))
     self.update(vars(cmath))
+    self.update(vars(math))
     self.update({
      'expC': lambda x: cmath.exp(x),
      'cleanExp': lambda x: autoOp.clean_complex(cmath.exp(x)),
@@ -198,6 +198,10 @@ def add_globals(self):
      'map' : lambda x,y : list(map(x,y)),
      'fold' : lambda x,y : functools.reduce(x,y),
      'foldI' : lambda x,y,z: functools.reduce(x,y,z),
+     'ones' : lambda x : quantumLib.np.ones(x).tolist(),
+     'scalarM' : lambda x,y : quantumLib.np.multiply(x,y).tolist(),
+     'addM' : lambda x,y : quantumLib.np.add(x,y).tolist(),
+     'toInt' : lambda x: int(x),
      'read':read, 'write':lambda x,port=sys.stdout:(port.write(to_string(x)), None)[1],
      'transpose' : lambda x: (quantumLib.ctransp(x)).tolist(),
      'hermitian?' : lambda x :quantumLib.checkH(x),
